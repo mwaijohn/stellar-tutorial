@@ -2,7 +2,10 @@ import StellarSdk from 'stellar-sdk';
 
 
 // Configure the Stellar network (testnet)
-const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
+// const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
+const server = new StellarSdk.Server('https://horizon.stellar.org');
+
+
 
 // Your issuer account from Stellar Lab
 const issuerSecret = 'SBZDPDOVKEVQ2TTC2OQ5NLAWM3DYZSBHKDNKGFHPMZIB3QUU3TWSA7TA';
@@ -180,20 +183,33 @@ async function sendToken(assetCode, destinationAddress, amount) {
     }
 }
 
+
+const checkBalance = async (publicKey) => {
+    try {
+        const account = await server.loadAccount(publicKey);
+        console.log('Account Details:', account);
+        console.log('Balances:', account.balances);
+    } catch (error) {
+        console.error('Error loading account:', error);
+    }
+};
+
 //create token
-console.log("CREATING ASSET TOKEN", createTokenAsset("MYxvxxTOKEN"))
+//console.log("CREATING ASSET TOKEN", createTokenAsset("MYxvxxTOKEN"))
 //create destination account
-const destination = await createDestinationAccount();
-console.log('Destination account created:', destination);
+// const destination = await createDestinationAccount();
+// console.log('Destination account created:', destination);
 
 //create a trustline
-await createTrustline(destination.secretKey, 'MYxvxxTOKEN');
+// await createTrustline(destination.secretKey, 'MYxvxxTOKEN');
 
 //send tokens
 
-console.log('Sending tokens...');
-const result = await sendToken('MYxvxxTOKEN', destination.publicKey, '1000');
-console.log('Transaction result:', result);
+// console.log('Sending tokens...');
+// const result = await sendToken('MYxvxxTOKEN', destination.publicKey, '1000');
+// console.log('Transaction result:', result);
+
+await checkBalance("GAIWUNGTRUPNBGESJFE7674MHW5PFJR524EUOJ357EQH3O7I2ZFWNNQD");
 
 // Usage example
 // async function main() {
